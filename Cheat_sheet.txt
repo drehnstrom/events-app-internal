@@ -1,0 +1,28 @@
+
+# build locally
+docker build -t drehnstrom/events-internal:v1.0 .
+
+# Run Docker image to test
+docker run --name events-internal -d -p 8082:8082 drehnstrom/events-internal:v1.0
+
+# Stop the Container
+docker stop events-internal
+
+# Push the Container
+docker push drehnstrom/events-internal:v1.0
+
+# Deploy to cluster
+kubectl create deployment events-internal --image=drehnstrom/events-internal:v1.1 
+
+# Delete deployment
+kubectl delete deployments/events-internal
+
+# Create Service
+kubectl expose deployments/events-internal --port=80 --target-port=8082 --type=LoadBalancer
+
+# Delete Service
+kubectl delete services/events-internal
+
+
+
+5yaktNJIgr
